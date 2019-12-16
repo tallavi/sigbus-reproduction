@@ -8,6 +8,7 @@
 std::string V2X_FILE_NAME = "jars/sigbus-reproduction.jar";
 
 #define MAIN_CLASS "org/junit/platform/console/ConsoleLauncher"
+//#define MAIN_CLASS "MyTest"
 
 int main(int argc, char **argv) {
 
@@ -21,15 +22,22 @@ int main(int argc, char **argv) {
 
     std::stringstream classPathSS;
 
-    if (directIterator != directIteratorEnd) {
-
-        classPathSS << "-Djava.class.path=" << directIterator->path().string();
-
-        directIterator.increment(ec);
-    }
+    bool isFirstJar = true;
 
     for(; directIterator != directIteratorEnd; directIterator.increment(ec)) {
-        classPathSS << ":" << directIterator->path().string();
+
+        auto jarPath = directIterator->path().string();
+
+        std::cout << "Loading JAR: " << jarPath << std::endl;
+
+        if (isFirstJar)
+            classPathSS << "-Djava.class.path=";
+        else
+            classPathSS << ":";
+
+        classPathSS << jarPath;
+
+        isFirstJar = false;
     }
 
     JavaVM *jvm;       /* denotes a Java VM */
