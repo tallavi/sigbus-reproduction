@@ -12,8 +12,11 @@ jmp_buf ljenv;
 
 std::string V2X_FILE_NAME = "jars/sigbus-reproduction.jar";
 
-#define MAIN_CLASS "org/junit/platform/console/ConsoleLauncher"
-//#define MAIN_CLASS "FirstTest"
+//#define MAIN_CLASS "org/junit/platform/console/ConsoleLauncher"
+#define MAIN_CLASS "FirstTest"
+
+#define CALL_METHOD "withJUnit"
+//#define CALL_METHOD "withoutJUnit"
 
 //#define HANDLE_SIGNALS
 
@@ -137,7 +140,7 @@ int main(int argc, char **argv) {
     setup_signal_handler(11, handler, &actions[11 - 1]);
 #endif
 
-    jmethodID mainMethod = env->GetStaticMethodID(mainClass, "main", "([Ljava/lang/String;)V");
+    jmethodID mainMethod = env->GetStaticMethodID(mainClass, CALL_METHOD, "([Ljava/lang/String;)V");
 
     if( sigsetjmp(ljenv,1) == 0) {
 //         call the code that will fail
@@ -156,8 +159,11 @@ int main(int argc, char **argv) {
     sigaction(11, &actions[11 - 1], NULL);
 #endif
 
+    std::cout << "before destroying" << std::endl;
 
     jvm->DestroyJavaVM();
+
+    std::cout << "after destroying" << std::endl;
 
     std::cout << "CppMainEnd" << std::endl;
     return 0;
