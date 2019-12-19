@@ -15,13 +15,9 @@ repositories {
 }
 
 dependencies {
-    def junitVersion = '1.5.1'
-    def jupiterVersion = '5.5.1'
-    def lombokVersion = '1.18.4'
-    testRuntime("org.junit.jupiter:junit-jupiter-engine:5.0.0-M4")
-    testRuntime("org.junit.platform:junit-platform-runner:1.0.0-M4")
-    testRuntime("org.junit.vintage:junit-vintage-engine:4.12.0-M4")
-    compile                   group: 'org.junit.platform',     name: 'junit-platform-console-standalone', version: junitVersion
+
+    compile group: 'org.junit.platform', name: 'junit-platform-console-standalone', version: '1.6.0-M1'
+
 }
 
 sourceSets {
