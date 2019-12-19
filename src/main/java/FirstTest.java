@@ -4,6 +4,15 @@ import org.junit.platform.console.ConsoleLauncherExecutionResult;
 
 class FirstTest  {
 
+    public static void main(String[] unused) throws InterruptedException {
+
+        String[] args = new String[3];
+        args[0] = "--class-path";
+        args[1] = "jars/sigbus-reproduction.jar";
+        args[2] = "--scan-classpath";
+        withJUnit(args);
+    }
+
     public static void withoutJUnit(String[] args) throws InterruptedException {
 
         System.out.println("withoutJUnit START");
